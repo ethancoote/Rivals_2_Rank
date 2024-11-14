@@ -1,1 +1,1 @@
-Rivals 2 Rank
+# Rivals 2 Rank
