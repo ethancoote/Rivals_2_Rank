@@ -6,8 +6,8 @@ const startggToken = process.env.STARTGG_TOKEN;
 
 // get completed matches from the event Id
 module.exports = {
-    getTotalSets: function (eventId) {
-        fetch(startggURL, {
+    getTotalSets: async function (eventId) {
+        await fetch(startggURL, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
@@ -15,20 +15,29 @@ module.exports = {
                 Authorization: 'Bearer ' + startggToken
             },
             body: JSON.stringify({
-                query: `query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) 
-                        { event(id: $eventId) {sets(page: $page perPage: $perPage sortType: STANDARD) 
-                        {pageInfo {total} nodes {id slots { entrant { id name } standing { placement stats { score { value }}}}}}}}`,
+                query: `query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) {
+                            event(id: $eventId) {
+                                sets (
+                                    page: $page
+                                    perPage: $perPage
+                                    sortType: STANDARD
+                                ) {
+                                    pageInfo {
+                                        total
+                                    }    
+                                }
+                            }
+                        }
+                        `,
                 variables: {
                     eventId: eventId,
                     page: 1,
-                    perPage: 20
+                    perPage: 1
                 },
             })
         }).then(r => r.json())
         .then(data => {
-            //console.log(data.data);
-            //console.log(data.data.event.sets.nodes);
-            //console.log(data.data.event.sets.nodes[1].slots);
+            console.log(data.data.event.sets.pageInfo.total);
         })
     }
 }

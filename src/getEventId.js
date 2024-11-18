@@ -5,10 +5,10 @@ const startggToken = process.env.STARTGG_TOKEN;
 
 // get the id from the event slug
 module.exports = {
-    getEventId: function (tournamentName, eventName) {
+    getEventId: async function (tournamentName, eventName) {
         const eventSlug = `tournament/${tournamentName}/event/${eventName}`;
         let eventId;
-        fetch(startggURL, {
+        await fetch(startggURL, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
@@ -23,8 +23,9 @@ module.exports = {
             })
         }).then(r => r.json())
         .then(data => {
-            console.log(data.data);
+            
             eventId = data.data.event.id;
+            
         })
         return eventId;
     }
