@@ -6,7 +6,7 @@ const startggToken = process.env.STARTGG_TOKEN;
 
 // get completed matches from the event Id
 module.exports = {
-    getCompletedMatches: function (eventId) {
+    getTotalSets: function (eventId) {
         fetch(startggURL, {
             method: 'POST',
             headers: {
@@ -28,10 +28,6 @@ module.exports = {
         .then(data => {
             //console.log(data.data);
             //console.log(data.data.event.sets.nodes);
-            console.log(data.data.event.sets.nodes[14].slots[0].entrant);
-            console.log(data.data.event.sets.nodes[14].slots[0].standing.stats.score.value);
-            console.log(data.data.event.sets.nodes[14].slots[1].entrant);
-            console.log(data.data.event.sets.nodes[14].slots[1].standing.stats.score.value);
             //console.log(data.data.event.sets.nodes[1].slots);
         })
     }
