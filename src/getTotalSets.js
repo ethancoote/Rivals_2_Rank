@@ -7,6 +7,7 @@ const startggToken = process.env.STARTGG_TOKEN;
 // get completed matches from the event Id
 module.exports = {
     getTotalSets: async function (eventId) {
+        let totalSets;
         await fetch(startggURL, {
             method: 'POST',
             headers: {
@@ -37,7 +38,8 @@ module.exports = {
             })
         }).then(r => r.json())
         .then(data => {
-            console.log(data.data.event.sets.pageInfo.total);
+            totalSets = data.data.event.sets.pageInfo.total;
         })
+        return totalSets
     }
 }
