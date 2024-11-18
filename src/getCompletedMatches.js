@@ -14,17 +14,24 @@ module.exports = {
                 Authorization: 'Bearer ' + startggToken
             },
             body: JSON.stringify({
-                query: "query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) { event(id: $eventId) {sets(page: $page perPage: $perPage sortType: STANDARD) {pageInfo {total} nodes {id slots {entrant {name}}}}}}",
+                query: `query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) 
+                        { event(id: $eventId) {sets(page: $page perPage: $perPage sortType: STANDARD) 
+                        {pageInfo {total} nodes {id slots { entrant { id name } standing { placement stats { score { value }}}}}}}}`,
                 variables: {
                     eventId: eventId,
                     page: 1,
-                    perPage: 5
+                    perPage: 20
                 },
             })
         }).then(r => r.json())
         .then(data => {
-            console.log(data.data);
-            console.log(data.data.event.sets.nodes[0]);
+            //console.log(data.data);
+            //console.log(data.data.event.sets.nodes);
+            console.log(data.data.event.sets.nodes[0].slots[0].entrant);
+            console.log(data.data.event.sets.nodes[0].slots[0].standing.stats.score.value);
+            console.log(data.data.event.sets.nodes[0].slots[1].entrant);
+            console.log(data.data.event.sets.nodes[0].slots[1].standing.stats.score.value);
+            //console.log(data.data.event.sets.nodes[1].slots);
         })
     }
 }
