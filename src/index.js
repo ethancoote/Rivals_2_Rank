@@ -6,7 +6,9 @@ EventId.getEventId("guelph-rivals-ii-online-week-2", "rivals-of-aether-ii-single
     console.log(idValue);
     TotalSets.getTotalSets(idValue).then(totalSets => {
         console.log(totalSets);
-        CompletedMatches.getCompletedMatches(idValue, totalSets);
+        CompletedMatches.getCompletedMatches(idValue, totalSets).then(results => {
+            console.log(results);
+        });
 
     });
 });

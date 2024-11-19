@@ -10,6 +10,7 @@ module.exports = {
         let setsFound = 0;
         let pageNum = 1;
         let perPageNum = 50;
+        let resultObjArray = []; 
         while (setsFound < totalSets ) {
             if ((totalSets - setsFound) < 50) {
                 perPageNum = totalSets - setsFound + 1;
@@ -40,12 +41,26 @@ module.exports = {
                 let i = 1;
                 while (i < perPageNum) {
                     try {
-                        console.log(`Set Number: ${setsFound}`);
+                        const match = new Object();
+                        /*console.log(`Set Number: ${setsFound}`);
                         console.log(data.data.event.sets.nodes[i-1].slots[0].entrant);
                         console.log(data.data.event.sets.nodes[i-1].slots[0].standing.stats.score.value);
                         console.log(data.data.event.sets.nodes[i-1].slots[1].entrant);
-                        console.log(data.data.event.sets.nodes[i-1].slots[1].standing.stats.score.value);
-                        
+                        console.log(data.data.event.sets.nodes[i-1].slots[1].standing.stats.score.value);*/
+
+                        // check who wins and loses the match
+                        if (data.data.event.sets.nodes[i-1].slots[0].standing.stats.score.value == -1 || data.data.event.sets.nodes[i-1].slots[1].standing.stats.score.value == -1) {
+                            console.log("DQ");
+                        } else if (data.data.event.sets.nodes[i-1].slots[0].standing.stats.score.value > data.data.event.sets.nodes[i-1].slots[1].standing.stats.score.value) {
+                            match.win = data.data.event.sets.nodes[i-1].slots[0].entrant.id;
+                            match.lose = data.data.event.sets.nodes[i-1].slots[1].entrant.id;
+                            resultObjArray.push(match);
+                        } else {
+                            match.win = data.data.event.sets.nodes[i-1].slots[1].entrant.id;
+                            match.lose = data.data.event.sets.nodes[i-1].slots[0].entrant.id;
+                            resultObjArray.push(match);
+                        }
+                          
                         setsFound += 1;
                     } catch (err) {
                         console.log(`Error set # ${setsFound}`);
@@ -58,6 +73,6 @@ module.exports = {
             })
             pageNum++;
         }       
-        
+        return resultObjArray;
     }
 }
