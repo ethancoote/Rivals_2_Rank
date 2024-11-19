@@ -10,9 +10,9 @@ module.exports = {
         let setsFound = 0;
         let pageNum = 1;
         let perPageNum = 50;
-        while (setsFound < totalSets) {
+        while (setsFound < totalSets ) {
             if ((totalSets - setsFound) < 50) {
-                perPageNum = totalSets - setsFound;
+                perPageNum = totalSets - setsFound + 1;
             } else {
                 perPageNum = 50;
             }
@@ -37,21 +37,26 @@ module.exports = {
             .then(data => {
                 //console.log(data.data);
                 //console.log(data.data.event.sets.nodes);
-                try {
-                    console.log(data.data.event.sets.nodes[setsFound].slots[0].entrant);
-                    console.log(data.data.event.sets.nodes[setsFound].slots[0].standing.stats.score.value);
-                    console.log(data.data.event.sets.nodes[setsFound].slots[1].entrant);
-                    console.log(data.data.event.sets.nodes[setsFound].slots[1].standing.stats.score.value);
-                    setsFound += 1;
-                } catch (err) {
-                    console.log(`Error set # ${setsFound}`);
-                    console.log(err);
-                    setsFound += 1;
+                let i = 1;
+                while (i < perPageNum) {
+                    try {
+                        console.log(`Set Number: ${setsFound}`);
+                        console.log(data.data.event.sets.nodes[i-1].slots[0].entrant);
+                        console.log(data.data.event.sets.nodes[i-1].slots[0].standing.stats.score.value);
+                        console.log(data.data.event.sets.nodes[i-1].slots[1].entrant);
+                        console.log(data.data.event.sets.nodes[i-1].slots[1].standing.stats.score.value);
+                        
+                        setsFound += 1;
+                    } catch (err) {
+                        console.log(`Error set # ${setsFound}`);
+                        console.log(err);
+                        setsFound += 1;
+                    }
+                    i++;
                 }
-                
                 sleep.sleep(1000);
-                //console.log(data.data.event.sets.nodes[1].slots);
             })
+            pageNum++;
         }       
         
     }
