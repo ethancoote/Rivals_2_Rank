@@ -1,8 +1,9 @@
 const EventId = require('./getEventId');
 const CompletedMatches = require('./getCompletedMatches');
 const TotalSets = require('./getTotalSets');
+const CompletedTournaments = require('./getCompletedTournaments');
 
-EventId.getEventId("guelph-rivals-ii-online-week-2", "rivals-of-aether-ii-singles").then(idValue => {
+/*EventId.getEventId("don-t-park-on-the-grass-2024", "rivals-of-aether-ii-singles").then(idValue => {
     console.log(idValue);
     TotalSets.getTotalSets(idValue).then(totalSets => {
         console.log(totalSets);
@@ -11,7 +12,9 @@ EventId.getEventId("guelph-rivals-ii-online-week-2", "rivals-of-aether-ii-single
         });
 
     });
-});
+});*/
+
+CompletedTournaments.getCompletedTournaments();
 //CompletedMatches.getCompletedMatches(1256052);
 
 
