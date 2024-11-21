@@ -6,7 +6,6 @@ const startggToken = process.env.STARTGG_TOKEN;
 // get the id from the event slug
 module.exports = {
     getCompletedTournaments: async function () {
-        let eventId;
         await fetch(startggURL, {
             method: 'POST',
             headers: {
@@ -15,25 +14,36 @@ module.exports = {
                 Authorization: 'Bearer ' + startggToken
             },
             body: JSON.stringify({
-                query: `query VideogameQuery {
-                            videogames (query: {filter: {name: "Rivals of Aether II"}, perPage: 5}) {
+                query: `query TournamentsByVideogame($perPage: Int!, $videogameId: ID!) {
+                            tournaments(query: {
+                                perPage: $perPage
+                                page: 1
+                                sortBy: "startAt asc"
+                                filter: {
+                                    past: false
+                                    videogameIds: [
+                                        $videogameId
+                                    ]
+                                }
+                            }) {
                                 nodes {
                                     id
                                     name
-                                    displayName
+                                    slug
+                                    state
                                 }
                             }
-                        }`,
+                        }
+                        `,
                 variables: {
-                    
+                    perPage: 50,
+                    videogameId: 53945
                 },
             })
         }).then(r => r.json())
         .then(data => {
-            console.log(data.data);
-            eventId = data.data;
+            console.log(data.data.tournaments.nodes);
             
         })
-        return eventId;
     }
 }
