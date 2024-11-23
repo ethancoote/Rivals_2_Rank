@@ -14,7 +14,7 @@ const fs = require('fs');
 
     });
 });*/
-
+/*
 CompletedTournaments.getCompletedTournaments().then(slugArray => {
     //let len = slugArray.length;
     let len = 3;
@@ -55,8 +55,8 @@ CompletedTournaments.getCompletedTournaments().then(slugArray => {
             console.log("success");
         }
     });
-});
-/*
+});*/
+
 var data = JSON.parse(fs.readFileSync("slugArray.json", "utf8"))
 
 console.log(data);
@@ -73,7 +73,7 @@ for (i=0; i<len; i++) {
             
         });
     });
-}*/
+}
 
 //CompletedMatches.getCompletedMatches(1256052);
 
