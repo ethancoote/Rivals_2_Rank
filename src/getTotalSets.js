@@ -18,6 +18,8 @@ module.exports = {
             body: JSON.stringify({
                 query: `query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) {
                             event(id: $eventId) {
+                                id
+                                name
                                 sets (
                                     page: $page
                                     perPage: $perPage
@@ -38,7 +40,8 @@ module.exports = {
             })
         }).then(r => r.json())
         .then(data => {
-            totalSets = data.data.event.sets.pageInfo.total;
+            console.log(data.data.event);
+            //totalSets = data.data.event.sets.pageInfo.total;
         })
         return totalSets
     }

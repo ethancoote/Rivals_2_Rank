@@ -10,7 +10,7 @@ module.exports = {
         let upToDate = false;
         let pageNum = 1;
         let notCompleteCount = 0;
-        let tournamentIds = [];
+        let tournamentSlugs = [];
         while (!upToDate) {
             await fetch(startggURL, {
                 method: 'POST',
@@ -56,7 +56,7 @@ module.exports = {
                         notCompleteCount++;
                     } else {
                         //console.log(data.data.tournaments.nodes[i]);
-                        tournamentIds.push(data.data.tournaments.nodes[i].id);
+                        tournamentSlugs.push(data.data.tournaments.nodes[i].slug);
                         notCompleteCount = 0;
                     }
                     if (notCompleteCount >= 20) { // number is arbitary, as a way to find out when completed tournaments end
@@ -69,6 +69,6 @@ module.exports = {
             pageNum++;
             sleep.sleep(1000);
         }
-        return tournamentIds;
+        return tournamentSlugs;
     }
 }
