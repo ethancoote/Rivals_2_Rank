@@ -63,19 +63,26 @@ var data = JSON.parse(fs.readFileSync("slugArray.json", "utf8"))
 let resultsArray = [];
 let i = 0;
 let len = 3;
+let count = 1;
 const promises = [];
 for (i=0; i<len; i++) {
+    
     promises.push(new Promise(resolve => {
+        
         EventIdFromTourn.getEventFromTournament(data.slugArray[i]).then (eventId => {
             if (eventId != -1) {
                 TotalSets.getTotalSets(eventId).then(totalSets => {
                     CompletedMatches.getCompletedMatches(eventId, totalSets).then(results => {
                         let j = 0;
                         let resLen = results.length;
+                        console.log(`${count} of ${len}`);
+                        count++;
                         for (j=0; j<resLen; j++) {
+                            
                             resultsArray.push(results[i].push);
                             resolve(results);
                         }
+                        
                         
                     });
                 });
