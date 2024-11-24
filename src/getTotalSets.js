@@ -40,8 +40,8 @@ module.exports = {
             })
         }).then(r => r.json())
         .then(data => {
-            console.log(data.data.event);
-            //totalSets = data.data.event.sets.pageInfo.total;
+            //console.log(data.data.event);
+            totalSets = data.data.event.sets.pageInfo.total;
         })
         return totalSets
     }

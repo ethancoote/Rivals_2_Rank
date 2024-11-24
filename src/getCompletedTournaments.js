@@ -56,7 +56,8 @@ module.exports = {
                         notCompleteCount++;
                     } else {
                         //console.log(data.data.tournaments.nodes[i]);
-                        tournamentSlugs.push(data.data.tournaments.nodes[i].slug);
+                        var slug = data.data.tournaments.nodes[i].slug;
+                        tournamentSlugs.push(slug.slice(11));
                         notCompleteCount = 0;
                     }
                     if (notCompleteCount >= 20) { // number is arbitary, as a way to find out when completed tournaments end

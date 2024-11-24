@@ -6,7 +6,7 @@ const startggToken = process.env.STARTGG_TOKEN;
 
 // get completed matches from the event Id
 module.exports = {
-    getTotalSets: async function (tournamentSlug) {
+    getEventFromTournament: async function (tournamentSlug) {
         let eventId;
         await fetch(startggURL, {
             method: 'POST',
@@ -16,7 +16,7 @@ module.exports = {
                 Authorization: 'Bearer ' + startggToken
             },
             body: JSON.stringify({
-                query: `query TournamentEvents($tourneySlug: String, $videogameId: [ID]!) {
+                query: `query TournamentEvents($tournamentSlug: String, $videogameId: [ID]!) {
                             tournament(slug: $tournamentSlug) {
                                 events(filter:{videogameId: $videogameId}) {
                                     id
@@ -33,12 +33,14 @@ module.exports = {
         }).then(r => r.json())
         .then(data => {
             try {
-                if (data.data.tournament.event[0].state == 3) {
-                    eventId = data.data.tournament.event[0].id;
+                if (data.data.tournament.events[0].state == 'COMPLETED') {
+                    eventId = data.data.tournament.events[0].id;
                 } else {
                     eventId = -1;
+                    console.log("event not found in tournament");
                 }
-            } catch {
+            } catch (err) {
+                console.log(err);
                 eventId = -1;
             }
             
