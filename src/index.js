@@ -3,6 +3,7 @@ const CompletedMatches = require('./getCompletedMatches');
 const TotalSets = require('./getTotalSets');
 const CompletedTournaments = require('./getCompletedTournaments');
 const EventIdFromTourn = require('./getEventFromTournament');
+const EloEngine = require('./eloEngine');
 const fs = require('fs');
 
 /*EventId.getEventId("guelph-rivals-ii-online-week-2", "rivals-of-aether-ii-singles").then(idValue => {
@@ -93,8 +94,19 @@ for (i=0; i<len; i++) {
 }
 
 Promise.all(promises).then(resultsArray => {
-    console.log("--Results Array--")
-    console.log(resultsArray);
+    //console.log("--Results Array--")
+    //console.log(resultsArray);
+    let eloArray = EloEngine.runEloEngine(resultsArray);
+    var eloRankJSON = { eloArray };
+    var json = JSON.stringify(eloRankJSON);
+    fs.writeFile('rank.json', json, 'utf8', (err) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("success");
+        }
+    });
+    console.log(eloArray);
 });
 
 

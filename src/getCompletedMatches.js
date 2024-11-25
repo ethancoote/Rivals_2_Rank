@@ -42,22 +42,21 @@ module.exports = {
                 while (i < perPageNum) {
                     try {
                         const match = new Object();
-                        /*console.log(`Set Number: ${setsFound}`);
-                        console.log(data.data.event.sets.nodes[i-1].slots[0].entrant);
-                        console.log(data.data.event.sets.nodes[i-1].slots[0].standing.stats.score.value);
-                        console.log(data.data.event.sets.nodes[i-1].slots[1].entrant);
-                        console.log(data.data.event.sets.nodes[i-1].slots[1].standing.stats.score.value);*/
 
                         // check who wins and loses the match
                         if (data.data.event.sets.nodes[i-1].slots[0].standing.stats.score.value == -1 || data.data.event.sets.nodes[i-1].slots[1].standing.stats.score.value == -1) {
-                            console.log("DQ");
+                            //console.log("DQ");
                         } else if (data.data.event.sets.nodes[i-1].slots[0].standing.stats.score.value > data.data.event.sets.nodes[i-1].slots[1].standing.stats.score.value) {
                             match.win = data.data.event.sets.nodes[i-1].slots[0].entrant.id;
+                            match.winName = data.data.event.sets.nodes[i-1].slots[0].entrant.name;
                             match.lose = data.data.event.sets.nodes[i-1].slots[1].entrant.id;
+                            match.loseName = data.data.event.sets.nodes[i-1].slots[1].entrant.name;
                             resultObjArray.push(match);
                         } else {
                             match.win = data.data.event.sets.nodes[i-1].slots[1].entrant.id;
+                            match.winName = data.data.event.sets.nodes[i-1].slots[1].entrant.name;
                             match.lose = data.data.event.sets.nodes[i-1].slots[0].entrant.id;
+                            match.loseName = data.data.event.sets.nodes[i-1].slots[0].entrant.name;
                             resultObjArray.push(match);
                         }
                           
