@@ -70,6 +70,7 @@ module.exports = {
             pageNum++;
             sleep.sleep(1000);
         }
+        
         return tournamentSlugs;
     }
 }

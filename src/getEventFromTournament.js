@@ -40,13 +40,12 @@ module.exports = {
                     console.log("event not found in tournament");
                 }
             } catch (err) {
+                console.log(`ERROR: data: ${data}, slug: ${tournamentSlug}`);
                 console.log(err);
                 eventId = -1;
             }
-            
-            
             //totalSets = data.data.event.sets.pageInfo.total;
-        })
+        });
         return eventId;
     }
 }
