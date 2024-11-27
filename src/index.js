@@ -129,8 +129,68 @@ CompletedTournaments.getCompletedTournaments().then(slugArray => {
 
 //CompletedMatches.getCompletedMatches(1256052);
 
-EventIdFromTourn.getEventFromTournament("tge-friday-s-29").then (eventId => {
-    console.log(eventId);
+console.log("3");
+var data = JSON.parse(fs.readFileSync("slugArray.json", "utf8"));
+resultsArray = [];
+let i = 0;
+let len = 30;
+let count = 1;
+const promises = [];
+for (i=0; i<len; i++) {
+    
+    promises.push(new Promise(resolve => {
+        
+        EventIdFromTourn.getEventFromTournament(data.slugArray[i]).then (eventId => {
+            if (eventId != -1) {
+                //console.log(eventId);
+                TotalSets.getTotalSets(eventId).then(totalSets => {
+                    //console.log(totalSets);
+                    if (totalSets > 0) {
+                        CompletedMatches.getCompletedMatches(eventId, totalSets).then(results => {
+                            let j = 0;
+                            let resLen = results.length;
+                            console.log(`${count} of ${len}`);
+                            count++;
+                            for (j=0; j<resLen; j++) {
+                                
+                                resultsArray.push(results[j].push);
+                                resolve(results);
+                            }
+                        });
+                    } else {
+                        console.log("no, here");
+                        resolve(totalSets);
+                    }
+                    
+                });
+            } else {
+                console.log("here");
+                resolve(eventId);
+            }
+        });
+    }));
+    
+}
+console.log("4");
+
+Promise.all(promises).then(resultsArray => {
+    console.log("5");
+    //console.log("--Results Array--")
+    //console.log(resultsArray);
+    let eloArray = EloEngine.runEloEngine(resultsArray);
+    var eloRankJSON = { eloArray };
+    var json = JSON.stringify(eloRankJSON);
+    fs.writeFile('rank.json', json, 'utf8', (err) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("success");
+        }
+    });
+    console.log(eloArray);
 });
+/*EventIdFromTourn.getEventFromTournament("tge-friday-s-29").then (eventId => {
+    console.log(eventId);
+});*/
 
 

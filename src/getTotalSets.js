@@ -2,7 +2,7 @@ require('dotenv').config();
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const startggURL = "https://api.start.gg/gql/alpha";
 const startggToken = process.env.STARTGG_TOKEN;
-//const sleep = require('./sleep');
+const sleep = require('./sleep');
 
 // get completed matches from the event Id
 module.exports = {
@@ -40,9 +40,16 @@ module.exports = {
             })
         }).then(r => r.json())
         .then(data => {
-            //console.log(data.data.event);
-            totalSets = data.data.event.sets.pageInfo.total;
+            
+            try {
+                totalSets = data.data.event.sets.pageInfo.total;
+            } catch (err) {
+                console.log(`getTotalSets ERROR: ${eventId}`);
+                console.log(err);
+            }
+            
         })
+        sleep.sleep(1000);
         return totalSets
     }
 }

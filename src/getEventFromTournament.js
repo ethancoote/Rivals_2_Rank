@@ -2,7 +2,7 @@ require('dotenv').config();
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const startggURL = "https://api.start.gg/gql/alpha";
 const startggToken = process.env.STARTGG_TOKEN;
-//const sleep = require('./sleep');
+const sleep = require('./sleep');
 
 // get completed matches from the event Id
 module.exports = {
@@ -40,12 +40,13 @@ module.exports = {
                     console.log("event not found in tournament");
                 }
             } catch (err) {
-                console.log(`ERROR: data: ${data}, slug: ${tournamentSlug}`);
-                console.log(err);
+                console.log(`getEventFromTournament ERROR: data: ${data}, slug: ${tournamentSlug}`);
+                console.log(data);
                 eventId = -1;
             }
             //totalSets = data.data.event.sets.pageInfo.total;
         });
+        sleep.sleep(1000);
         return eventId;
     }
 }
