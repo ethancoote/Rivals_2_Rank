@@ -46,7 +46,6 @@ module.exports = {
             }
             //totalSets = data.data.event.sets.pageInfo.total;
         });
-        sleep.sleep(1000);
         return eventId;
     }
 }

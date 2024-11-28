@@ -49,7 +49,6 @@ module.exports = {
             }
             
         })
-        sleep.sleep(1000);
         return totalSets
     }
 }

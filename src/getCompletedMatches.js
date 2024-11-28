@@ -63,6 +63,7 @@ module.exports = {
                         setsFound += 1;
                     } catch (err) {
                         console.log(`Error set # ${setsFound}`);
+                        console.log(data);
                         console.log(err);
                         setsFound += 1;
                     }
